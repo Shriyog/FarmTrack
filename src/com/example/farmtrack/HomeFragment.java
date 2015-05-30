@@ -1,33 +1,38 @@
 package com.example.farmtrack;
 
+import java.util.List;
 import com.example.farmtrack.R;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.gsm.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 public class HomeFragment extends Fragment implements OnClickListener,OnCheckedChangeListener {
 	
-	//sms
-	String num="9421315125";
+	String num="";
 	Switch onoff;
 	EditText textF;
-	TextView status;
+	TextView status,freq;
+	boolean stat ;
 	IntentFilter intentFilter;
-	//end sms
+	DatabaseHandler db;
+	ListView listView;
+	View rootView;
 
 	public HomeFragment(){}
 	
@@ -35,42 +40,53 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 		
-		
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
+		SharedPreferences sp = this.getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
+	    num= sp.getString("ph_no", "none");
+	    stat = sp.getBoolean("status", false);
+	    db = new DatabaseHandler(this.getActivity());
+        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        showRecords();
         onoff = (Switch) rootView.findViewById(R.id.switch1);
         status = (TextView) rootView.findViewById(R.id.textView2);        
-       // btnStat = (Button) rootView.findViewById(R.id.button1);
-      
-
-      //set the switch to ON 
-        onoff.setChecked(true);
+        freq = (TextView) rootView.findViewById(R.id.textView5);
+        
+        freq.setText(""+analyze());
+      //set the switch to system state
+        onoff.setChecked(stat);
         //attach a listener to check for changes in state
         onoff.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
          @Override
          public void onCheckedChanged(CompoundButton buttonView,
-           boolean isChecked) {
-
-          if(isChecked){
+           boolean isChecked) {	  	 
+        	 
+        if(!num.equals("none"))
+        {
+        	if(isChecked){
            status.setText("System status : ON");
            String msg="on";
+           updateStatus(true);
            SmsManager sm=SmsManager.getDefault();
    			sm.sendTextMessage(num,null, msg,null,null);
    			//sm.sendTextMessage(destinationAddress, scAddress, text, sentIntent, deliveryIntent)
    		
-   			Toast.makeText(getActivity(), "Turning ON the system", Toast.LENGTH_SHORT).show();
+   			Toast.makeText(getActivity(), "Turning the system ON", Toast.LENGTH_SHORT).show();
 
           }else{
            status.setText("System status : OFF");
 		   String msg="off";
+           updateStatus(false);
 		   SmsManager sm=SmsManager.getDefault();
 		   sm.sendTextMessage(num,null, msg,null,null);
 			//sm.sendTextMessage(destinationAddress, scAddress, text, sentIntent, deliveryIntent)
 			
-			Toast.makeText(getActivity(), "Turning OFF the system", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Turning the system OFF", Toast.LENGTH_SHORT).show();
           }
 
+        }
+        else {
+			Toast.makeText(getActivity(), "Please change the number", Toast.LENGTH_SHORT).show();
+		}
          }
         });
         
@@ -92,10 +108,96 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 		
 	}
 
+	void updateStatus(boolean st)
+	{
+		  SharedPreferences sp = this.getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
+	  	  SharedPreferences.Editor editor = sp.edit();                                                         			
+  	      editor.putBoolean("status", st);
+  	      editor.commit();
+  
+	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 	//	String str = textF.getText();
 		status.setText("on");
 	}
+	
+	
+	public void showRecords()
+	{
+        // Get ListView object from xml
+        listView = (ListView) rootView.findViewById(R.id.listView1);
+      
+        // Reading all contacts
+        List<Contact> contacts = db.getAllContacts();       
+ 
+        int n=contacts.size(),i=0;
+        if(n>3)
+        	n=3;
+        // Defined Array values to show in ListView
+        String[] values = new String[n];
+        for (Contact cn : contacts) {
+        	values[i] = "  "+(i+1)+"        " + cn.getName() + "       " + cn.getPhoneNumber();
+        	if(i==2)
+        		break;
+        	i++;
+        }
+
+        
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Forth - the Array of data
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_list_item_1, android.R.id.text1, values);
+
+
+        // Assign adapter to ListView
+        listView.setAdapter(adapter);  	
+	}
+
+	public String analyze()
+	{
+		List<Contact> contacts = db.getAllContacts();       
+		int [] array = new int[contacts.size()];
+		
+		if(contacts.size()>2){
+			int x=0;
+		for (Contact cn : contacts) {
+			String str = ""+cn.getPhoneNumber();
+			String tmp [] = str.split(":");
+			array[x] = Integer.parseInt(""+tmp[0]);
+			x++;
+		}
+		
+		int count = 1, tempCount;
+		  int popular = array[0];
+		  int temp = 0;
+		  for (int i = 0; i < (array.length - 1); i++)
+		  {
+		    temp = array[i];
+		    tempCount = 0;
+		    for (int j = 1; j < array.length; j++)
+		    {
+		      if (temp == array[j])
+		        tempCount++;
+		    }
+		    if (tempCount > count)
+		    {
+		      popular = temp;
+		      count = tempCount;
+		    }
+		  }
+		if(popular>12){
+			popular-=12;
+			return "at "+popular+" to "+(popular+1)+" PM";
+		}
+		else
+		return "at "+popular+" to "+(popular+1)+" AM";
+		}
+		return "Analysing Record logs";
+	}
+	
 }

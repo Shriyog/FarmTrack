@@ -16,20 +16,27 @@ import java.util.ArrayList;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager.OnActivityResultListener;
+import android.provider.Contacts;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -54,6 +61,14 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if(loadData().equals("no")){
+			Intent launchIntent = new Intent(this, StartActivity.class);
+		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
+		    startActivity(launchIntent);
+		    finish();
+		}
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
@@ -119,6 +134,13 @@ public class MainActivity extends ActionBarActivity {
 			displayView(0);
 		}
 	}
+	
+	 private String loadData() {		
+	      SharedPreferences sp =
+	         getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
+	      String str = sp.getString("ph_no", "no");
+		return str;
+	   }
 
 	/**
 	 * Slide menu item click listener
@@ -238,6 +260,7 @@ public class MainActivity extends ActionBarActivity {
 			// TODO Auto-generated method stub
 		}
 	};
+
 
 
 }
