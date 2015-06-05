@@ -1,87 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/switch1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
-        android:text="Status :OFF"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp"
-        android:text="Switch" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="21dp"
-        android:text="Log Analysis : Frequent intrusions"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    android:layout_height="match_parent"
+    android:background="@color/white" >
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp" 
-        android:layout_marginRight="20dp" 
-        android:layout_marginBottom="20dp" >
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp" >
     </ListView>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="15dp"
-        android:text="Recent Records"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="22dp"
-        android:src="@drawable/ic_home" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/ic_small" />
+
+    <GridLayout
+        android:id="@+id/gridLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/listView1"
+        android:layout_alignRight="@+id/listView1"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="20dp"
+        android:background="@color/blue"
+        android:columnCount="1" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_margin="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_row="2"
+            android:text="Status :OFF"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/list_item_title" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_row="1"
+            android:text="Power"
+            android:textColor="@color/list_item_title"
+            android:textSize="20sp" />
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/gridLayout1"
+        android:layout_alignRight="@+id/gridLayout1"
+        android:layout_below="@+id/gridLayout1"
+        android:layout_marginTop="14dp"
+        android:background="@color/pnk"
+        android:columnCount="1" >
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_row="1"
+            android:text="Analyzing data"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/ORANGE" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_row="0"
+            android:text="Log Analysis"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/list_item_title" />
+
+    </GridLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/listView1"
+        android:layout_alignRight="@+id/listView1"
+        android:layout_below="@+id/textView3"
+        android:indeterminate="false"
+        android:max="100"
+        android:layout_marginTop="10dp"
+        android:maxHeight="5dip"
+        android:minHeight="5dip"
+        android:minWidth="10dip"
+        android:progress="100" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gridLayout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        android:text="Recent Intrusions"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/blue" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView1"
-        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignRight="@+id/gridLayout1"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
         android:text="FarmTrack Systems"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/switch1"
-        android:layout_marginTop="7dp"        
-        android:layout_centerVertical="true"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/green" />
 
 </RelativeLayout>

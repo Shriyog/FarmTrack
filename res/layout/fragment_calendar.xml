@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" >
+
+<com.example.farmtrack.cal.ExtendedCalendarView
+    android:id="@+id/calendar"
+    android:layout_width="match_parent"
+    android:layout_height="380dp"
+    android:layout_margin="10dp" />
+
+<TextView
+    android:id="@+id/textView2"
+    android:layout_width="@dimen/text_height_width"
+    android:layout_height="@dimen/text_height_width"
+    android:layout_below="@+id/calendar"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/orange_color"
+    android:gravity="center"
+    android:text=" "
+    android:textAppearance="?android:attr/textAppearanceSmall"
+    android:textColor="@color/date_number_text_color" />
+
+<TextView
+    android:id="@+id/textView3"
+    android:layout_width="@dimen/text_height_width"
+    android:layout_height="@dimen/text_height_width"
+    android:layout_alignBaseline="@+id/textView2"
+    android:layout_alignBottom="@+id/textView2"
+    android:layout_alignLeft="@+id/calendar"
+    android:layout_marginLeft="18dp"
+    android:background="@drawable/yellow_color"
+    android:gravity="center"
+    android:text=" "
+    android:textAppearance="?android:attr/textAppearanceSmall"
+    android:textColor="@color/date_number_text_color" />
+
+<TextView
+    android:id="@+id/textView1"
+    android:layout_width="@dimen/text_height_width"
+    android:layout_height="@dimen/text_height_width"
+    android:layout_alignBaseline="@+id/textView2"
+    android:layout_alignBottom="@+id/textView2"
+    android:layout_alignRight="@+id/calendar"
+    android:layout_marginRight="25dp"
+    android:background="@drawable/red_color"
+    android:gravity="center"
+    android:text=" "
+    android:textAppearance="?android:attr/textAppearanceSmall"
+    android:textColor="@color/date_number_text_color" />
+
+<TextView
+    android:id="@+id/textView4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/calendar"
+    android:layout_below="@+id/textView3"
+    android:text="1 Intrusion"
+    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+<TextView
+    android:id="@+id/textView5"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView4"
+    android:layout_alignBottom="@+id/textView4"
+    android:layout_centerHorizontal="true"
+    android:text="2-3 Intrusions"
+    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+<TextView
+    android:id="@+id/textView6"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView5"
+    android:layout_alignBottom="@+id/textView5"
+    android:layout_alignRight="@+id/calendar"
+    android:text="More Intrusions"
+    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>

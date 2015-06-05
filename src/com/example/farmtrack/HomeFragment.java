@@ -1,5 +1,7 @@
 package com.example.farmtrack;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import com.example.farmtrack.R;
 
@@ -39,6 +41,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+	
 		
 		SharedPreferences sp = this.getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
 	    num= sp.getString("ph_no", "none");
@@ -49,7 +52,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
         onoff = (Switch) rootView.findViewById(R.id.switch1);
         status = (TextView) rootView.findViewById(R.id.textView2);        
         freq = (TextView) rootView.findViewById(R.id.textView5);
-        
+                
         freq.setText(""+analyze());
       //set the switch to system state
         onoff.setChecked(stat);
@@ -163,7 +166,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 		List<Contact> contacts = db.getAllContacts();       
 		int [] array = new int[contacts.size()];
 		
-		if(contacts.size()>2){
+		if(contacts.size()>1){
 			int x=0;
 		for (Contact cn : contacts) {
 			String str = ""+cn.getPhoneNumber();
@@ -192,12 +195,12 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 		  }
 		if(popular>12){
 			popular-=12;
-			return "at "+popular+" to "+(popular+1)+" PM";
+			return "Frequent Intrusions at "+popular+" to "+(popular+1)+" PM";
 		}
 		else
-		return "at "+popular+" to "+(popular+1)+" AM";
+		return "Frequent Intrusions at "+popular+" to "+(popular+1)+" AM";
 		}
-		return "Analysing Record logs";
+		return "Analysing data";
 	}
 	
 }

@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="list_item_title">#fff</color>
+    <color name="list_item_title">#FFFFFF</color>
     <color name="list_background">#303030</color>
-    <color name="list_background_pressed">#40e0d1</color>
+    <color name="list_background_pressed">#33A1C9</color>
     <color name="list_divider">#272727</color>
     <color name="counter_text_bg">#626262</color>
     <color name="counter_text_color">#c5c4c4</color>
+    <color name="green">#9ACD32</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="GOLD">#FFD700</color>
+    <color name="ORANGE">#FF8000</color>
+    <color name="wood">#CD853F</color>
+    <color name="blue">#00CED1</color>
+    <color name="pink">#BFEFFF</color>
+    <color name="pea">#33A1C9</color>
+    <color name="white">#FFFFFF</color>
+    <color name="pnk">#FFC125</color>
 </resources>

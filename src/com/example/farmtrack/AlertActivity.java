@@ -150,7 +150,7 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 	{
         DatabaseHandler db = new DatabaseHandler(this);
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm aaa");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
         String formattedDate = df.format(c.getTime());
         String [] arr = formattedDate.split(" "); 
         db.addContact(new Contact(arr[0], arr[1]+" "+arr[2]));		

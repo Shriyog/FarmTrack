@@ -6,37 +6,18 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        android:text="Change Number"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="35dp"
         android:layout_marginRight="30dp"
-        android:text="Update phone number of the GSM card located on site."
+        android:layout_marginTop="26dp"
+        android:text="Update phone number of the  replaced GSM card located on site."
         android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/counter_text_bg" />
 
     <EditText
         android:id="@+id/editText1"
@@ -44,19 +25,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView4"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="phone" />
+        android:inputType="phone" >
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView3"
-        android:layout_marginTop="60dp"
-        android:text="Enter New Number :"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <requestFocus />
+    </EditText>
 
     <Button
         android:id="@+id/button1"
@@ -64,7 +38,68 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:text="Update Number" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:text="Current Number"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/pea" />
+
+    <Button
+        android:id="@+id/button2"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Pick from Contacts" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/editText1"
+        android:layout_marginTop="36dp"
+        android:text="Change Number"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/blue" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_toLeftOf="@+id/button2"
+        android:src="@drawable/signal" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:text="Enter a New Number :"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/counter_text_bg" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:text="Or"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/counter_text_bg" />
 
 </RelativeLayout>

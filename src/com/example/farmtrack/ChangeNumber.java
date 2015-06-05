@@ -3,10 +3,15 @@ package com.example.farmtrack;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.DocumentsContract.Root;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +37,7 @@ public class ChangeNumber extends Fragment implements OnClickListener{
 	TextView no;
 	Button bt;
 	EditText num;
+	Button buttonPickContact; 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -42,6 +48,22 @@ public class ChangeNumber extends Fragment implements OnClickListener{
         bt.setOnClickListener(this);
         num = (EditText) rootView.findViewById(R.id.editText1);
         loadData();
+        
+        buttonPickContact = (Button)rootView.findViewById(R.id.button2);
+		buttonPickContact.setOnClickListener(new Button.OnClickListener(){
+
+			   @Override
+			    public void onClick(View arg0) {
+			   // TODO Auto-generated method stub
+
+
+				   Intent pickContactIntent = new Intent( Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI );
+				   pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+				   startActivityForResult(pickContactIntent, 11);
+
+
+			    }});
+        
         return rootView;
     }
 
@@ -58,11 +80,12 @@ public class ChangeNumber extends Fragment implements OnClickListener{
 	      String str = sp.getString("ph_no", "Please enter no.");
 	      no.setText("Current Number : "+str);
 	   }
-	   	
+	
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		if(v.getId()==R.id.button1){
 		String str = ""+num.getText();
 		if(str.equals("")||str.length()!=10)
 			Toast.makeText(this.getActivity(),"Number Invalid",Toast.LENGTH_SHORT).show();
@@ -73,8 +96,25 @@ public class ChangeNumber extends Fragment implements OnClickListener{
 		num.clearFocus();
 		Toast.makeText(this.getActivity(),"Number Updated successfully !",Toast.LENGTH_SHORT).show();
 		}
+		}
 	}
 	
+	
+	@Override
+	public void onActivityResult(int reqCode, int resultCode, Intent data) {
+	
+	    String phoneNo = "";
+	    if (resultCode == Activity.RESULT_OK) {
+	    Uri uri = data.getData();
+	    Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+	    cursor.moveToFirst();
 
+	    int  phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+	    phoneNo = cursor.getString(phoneIndex);
+	    num.setText(""+phoneNo);
+	    }
+	}
+
+	
 
 }
