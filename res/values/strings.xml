@@ -7,6 +7,13 @@
     <string name="title_activity_alert">AlertActivity</string>
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
+    <string name="monday">MON</string>
+    <string name="tuesday">TUE</string>
+    <string name="wednesday">WED</string>
+    <string name="thursday">THU</string>
+    <string name="friday">FRI</string>
+    <string name="saturday">SAT</string>
+    <string name="sunday">SUN</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
@@ -14,19 +21,25 @@
         <item>Change number</item>
         <item>Neighbour Track</item>
         <item>Intrusion Records</item>
+        <item>Analysis Calendar</item>
+        <item>About Us</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
         <item>@drawable/ic_home</item>
-        <item>@drawable/ic_people</item>
+        <item>@drawable/signal</item>
         <item>@drawable/ic_communities</item>
         <item>@drawable/ic_pages</item>
+        <item>@drawable/cal</item>
+        <item>@drawable/about</item>
     </array>
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_calender">CalenderActivity</string>
+    <string name="title_activity_tp">Tp</string>
 
 </resources>

@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -41,37 +42,65 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 	TextToSpeech tts;
 	Ringtone r;
 	Button notify;
+	Handler handler1 , handler2;
+	Runnable runnable1 , runnable2; 
+	PowerManager pm;
+	WakeLock wakeLock;
+	KeyguardManager keyguardManager;
+	KeyguardLock keyguardLock;
+	
 	String msg="Hey there ! Some intrusional activity has taken place in my farm. Can you please take a look at it.";
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		
-		PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
-		WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+		pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+		wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
 		wakeLock.acquire();
-		KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE); 
-		KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
+		keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE); 
+		keyguardLock = keyguardManager.newKeyguardLock("TAG");
 		keyguardLock.disableKeyguard();
+		
 		
 		
 		setContentView(R.layout.activity_alert);
 		notify = (Button) findViewById(R.id.button1);
 		notify.setOnClickListener(this);
 		
-		final int interval = 2000; // 1 Second
-		Handler handler = new Handler();
-		Runnable runnable = new Runnable(){
+		final int interval = 3000; // 1 Second ringtone timer
+		handler1 = new Handler();
+		runnable1 = new Runnable(){
 		    public void run() {
-		        Toast.makeText(AlertActivity.this, "Alarm start", Toast.LENGTH_SHORT).show();
 		    	Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 				r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 				r.play();
 			  }
 		};
-		handler.postAtTime(runnable, System.currentTimeMillis()+interval);
-		handler.postDelayed(runnable, interval);
+		handler1.postAtTime(runnable1, System.currentTimeMillis()+interval);
+		handler1.postDelayed(runnable1, interval);
 
+		//notify timer
+		handler2 = new Handler();
+		runnable2 = new Runnable(){
+		    public void run() {
+		    	
+		    	wakeLock.release();
+		    	keyguardLock.reenableKeyguard();
+		    	wakeLock = null;
+		    	keyguardLock = null;
+				SharedPreferences sp = getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
+				if(sp.getBoolean("auto", false))
+		        sendNotifications();
+			  }
+		};
+		handler2.postAtTime(runnable2, System.currentTimeMillis()+20000);
+		handler2.postDelayed(runnable2, 20000);
+		
+		
 		gifView = (GifView)findViewById(R.id.gif_view);
 		tts = new TextToSpeech(this, this);
 
@@ -117,7 +146,12 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 	        }
 	    	if(r != null)
 	            r.stop();
-	  
+	    	handler1.removeCallbacks(runnable1);
+	    	handler2.removeCallbacks(runnable2);
+	    	if(wakeLock!=null){
+	    	wakeLock.release();
+	    	keyguardLock.reenableKeyguard();
+	    	}
 	        super.onDestroy();
 	    }
 
@@ -125,7 +159,13 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 
 	@Override
 	public void onClick(View v) {
-		  SharedPreferences sp = this.getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
+		 sendNotifications(); 			
+	}
+
+	 
+	void sendNotifications()
+	{
+		SharedPreferences sp = this.getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
 	      String str = sp.getString("contacts", "none");
 	      if(str.equals("none")||str.length()<2){
 	    	  Toast.makeText(this, "Please Add contacts", Toast.LENGTH_SHORT).show();
@@ -139,18 +179,16 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 	        	tmp = values[i].split(",");
 	        	SmsManager sm=SmsManager.getDefault();
 	   			sm.sendTextMessage(tmp[1],null,msg,null,null);
-	   			Toast.makeText(this, "Notified Neighbours", Toast.LENGTH_SHORT).show();
+	   			Toast.makeText(this, "Notifying Neighbours", Toast.LENGTH_SHORT).show();
 	        }
-   
-			
+		
+		
 	}
-
-	 
 	void addRecord()
 	{
         DatabaseHandler db = new DatabaseHandler(this);
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm aaa");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
         String formattedDate = df.format(c.getTime());
         String [] arr = formattedDate.split(" "); 
         db.addContact(new Contact(arr[0], arr[1]+" "+arr[2]));		

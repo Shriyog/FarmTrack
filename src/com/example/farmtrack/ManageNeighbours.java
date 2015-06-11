@@ -19,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ public class ManageNeighbours extends Fragment {
 	ListView listView;
 	View rootView ;
 	Button buttonPickContact;
+	CheckBox auto;
 	public ManageNeighbours(){
 
 	}
@@ -40,13 +44,31 @@ public class ManageNeighbours extends Fragment {
  
         rootView = inflater.inflate(R.layout.fragment_manage_neighbours, container, false);
 		contactNumber = (TextView)rootView.findViewById(R.id.textView4);
-
+		auto = (CheckBox)rootView.findViewById(R.id.checkBox1);
+		SharedPreferences sp1 = getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
+        auto.setChecked(sp1.getBoolean("auto", false));	
+		
+		auto.setOnCheckedChangeListener( new OnCheckedChangeListener() {
+			
+		@Override
+		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+		
+		      SharedPreferences sp =getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
+		      SharedPreferences.Editor editor = sp.edit();      
+		      editor.putBoolean("auto", arg1);
+		      editor.commit();
+	
+		      Toast.makeText(rootView.getContext(),"Settings saved" , Toast.LENGTH_LONG).show();
+		
+		}
+		} );
+		
+		
 		buttonPickContact = (Button)rootView.findViewById(R.id.button1);
 		buttonPickContact.setOnClickListener(new Button.OnClickListener(){
 
 			   @Override
 			    public void onClick(View arg0) {
-			   // TODO Auto-generated method stub
 
 
 				   Intent pickContactIntent = new Intent( Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI );
@@ -63,6 +85,7 @@ public class ManageNeighbours extends Fragment {
 	      SharedPreferences sp =this.getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
 	      SharedPreferences.Editor editor = sp.edit();                                                         			
 	      editor.putString("contacts", loadData()+str+"  ");
+	      editor.putBoolean("auto", false);
 	      editor.commit();
 	   }
 	
@@ -70,7 +93,7 @@ public class ManageNeighbours extends Fragment {
 	      SharedPreferences sp = this.getActivity().getSharedPreferences("MyPrefs",
 	         Context.MODE_PRIVATE);		
 	      String str = sp.getString("contacts", "");
-		return str;
+	      return str;
 	   }
 	
 	public void showRecords()
@@ -121,6 +144,7 @@ public class ManageNeighbours extends Fragment {
 	    showRecords();
 	    }
 	}
+	
 
 
 }

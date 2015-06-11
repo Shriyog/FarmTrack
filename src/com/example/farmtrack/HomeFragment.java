@@ -1,13 +1,17 @@
 package com.example.farmtrack;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import com.example.farmtrack.R;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.gsm.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +37,16 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 	DatabaseHandler db;
 	ListView listView;
 	View rootView;
-
+	private  ProgressDialog progressBar;
+	private int progressBarStatus = 0;
+	private Handler progressBarbHandler = new Handler();
+   	private long fileSize = 0;
 	public HomeFragment(){}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+	
 		
 		SharedPreferences sp = this.getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
 	    num= sp.getString("ph_no", "none");
@@ -49,7 +57,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
         onoff = (Switch) rootView.findViewById(R.id.switch1);
         status = (TextView) rootView.findViewById(R.id.textView2);        
         freq = (TextView) rootView.findViewById(R.id.textView5);
-        
+                
         freq.setText(""+analyze());
       //set the switch to system state
         onoff.setChecked(stat);
@@ -83,11 +91,13 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 			Toast.makeText(getActivity(), "Turning the system OFF", Toast.LENGTH_SHORT).show();
           }
 
+           progress();
         }
         else {
 			Toast.makeText(getActivity(), "Please change the number", Toast.LENGTH_SHORT).show();
 		}
          }
+         
         });
         
         //check the current state before we display the screen
@@ -163,7 +173,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 		List<Contact> contacts = db.getAllContacts();       
 		int [] array = new int[contacts.size()];
 		
-		if(contacts.size()>2){
+		if(contacts.size()>1){
 			int x=0;
 		for (Contact cn : contacts) {
 			String str = ""+cn.getPhoneNumber();
@@ -192,12 +202,54 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 		  }
 		if(popular>12){
 			popular-=12;
-			return "at "+popular+" to "+(popular+1)+" PM";
+			return "Frequent Intrusions at "+popular+" to "+(popular+1)+" PM";
 		}
 		else
-		return "at "+popular+" to "+(popular+1)+" AM";
+		return "Frequent Intrusions at "+popular+" to "+(popular+1)+" AM";
 		}
-		return "Analysing Record logs";
+		return "Analysing data";
 	}
+	
+	void progress()
+	{
+		progressBar = new ProgressDialog(rootView.getContext());
+        progressBar.setCancelable(true);
+        progressBar.setMessage("Processing ...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setProgress(0);
+        progressBar.setMax(100);
+        progressBar.show();
+        progressBarStatus = 0;
+        
+        fileSize = 0;
+        new Thread(new Runnable() {
+           public void run() {
+              while (progressBarStatus <= 5) {
+                 progressBarStatus++;
+                 
+                 try {
+                    Thread.sleep(1000);
+                 }
+                 
+                 catch (InterruptedException e) {
+                    e.printStackTrace();
+                 }
+                 
+                 progressBarbHandler.post(new Runnable() {
+                    public void run() {
+                       progressBar.setProgress(progressBarStatus);
+                    }
+                 });
+              }
+              
+              if (progressBarStatus >= 5) {
+                
+                 progressBar.dismiss();
+              }
+           }
+        }).start();
+     }
+
+	
 	
 }

@@ -15,7 +15,8 @@ public class SMSRec extends BroadcastReceiver {
 	{
 		Bundle b=arg1.getExtras();
 		SmsMessage []msg=null;
-		String str="";
+		String str="",alert_msg="Alert! Some intrusional activity has taken place in your Farm.";
+		String msgbody="";
 		boolean flg=false;
 		SharedPreferences sp = context.getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
 		String num = sp.getString("ph_no", "none");
@@ -27,8 +28,19 @@ public class SMSRec extends BroadcastReceiver {
 			{
 				msg[i]=SmsMessage.createFromPdu((byte[])pdus[i]);
 				str+="Messgae From "+msg[i].getOriginatingAddress();
-				if(msg[i].getOriginatingAddress().equals("+91"+num))
-					flg=true;
+				msgbody = ""+msg[i].getMessageBody().toString();
+				if(msg[i].getOriginatingAddress().equals("+91"+num)) 
+				{
+					if(alert_msg.equalsIgnoreCase(msgbody))
+						flg=true;
+					if(msgbody.equalsIgnoreCase("Your system is ON"))				
+						Toast.makeText(context, "System ON", Toast.LENGTH_SHORT).show();
+					if(msgbody.equalsIgnoreCase("Your system is OFF"))				
+						Toast.makeText(context, "System OFF", Toast.LENGTH_SHORT).show();
+				
+					abortBroadcast();
+				}
+				
 				str+=" :";
 				str+=msg[i].getMessageBody().toString();
 				str+="\n";
@@ -37,7 +49,7 @@ public class SMSRec extends BroadcastReceiver {
 			if(flg){
 		    Intent launchIntent = new Intent(context, AlertActivity.class);
 		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
+//		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
 			launchIntent.putExtra("sms", str);
 		    context.startActivity(launchIntent);
 			

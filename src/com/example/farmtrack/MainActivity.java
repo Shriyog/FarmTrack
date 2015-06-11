@@ -94,6 +94,10 @@ public class MainActivity extends ActionBarActivity {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		// Communities, Will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+		//cal
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
+		//about
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
 		
 
 		// Recycle the typed array
@@ -205,6 +209,12 @@ public class MainActivity extends ActionBarActivity {
 			break;
 		case 3:
 			fragment = new IntrusionRecords();
+			break;
+		case 4:
+			fragment = new CalenderFragment();
+			break;			
+		case 5:
+			fragment = new AboutUs();
 			break;
 		
 		default:

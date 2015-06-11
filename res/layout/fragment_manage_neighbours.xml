@@ -30,20 +30,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ImageView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
         android:text="Add people who can easily access your field in case of an Emergency." />
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="25dp" >
+        android:layout_marginTop="10dp" >
 
     </ListView>
 
@@ -60,12 +60,24 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/button1"
-        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
         android:text="These people will be notified when you press &apos;Notify Neighbours&apos; on receiving Alert"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_marginTop="15dp"
+        android:text="Automatically send notifications after 2 minutes of inactivity"
+        android:textColor="@color/pea"
+        android:textSize="15sp" />
 
 </RelativeLayout>
