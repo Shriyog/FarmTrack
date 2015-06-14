@@ -27,15 +27,11 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <receiver android:name=".SMSRec" >
-            <intent-filter android:priority="1">
+            <intent-filter android:priority="1" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
@@ -62,6 +58,21 @@
         <activity
             android:name=".Tp"
             android:label="@string/title_activity_tp" >
+        </activity>
+        <activity
+            android:name=".NewStartActivity"
+            android:label="@string/title_activity_new_start" >
+        </activity>
+        <activity
+            android:name=".SplashActivity"
+            android:label="FarmTrack"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+			<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

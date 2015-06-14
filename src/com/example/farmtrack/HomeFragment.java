@@ -6,8 +6,10 @@ import java.util.List;
 import com.example.farmtrack.R;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -49,10 +51,36 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 	
 		
 		SharedPreferences sp = this.getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
-	    num= sp.getString("ph_no", "none");
 	    stat = sp.getBoolean("status", false);
 	    db = new DatabaseHandler(this.getActivity());
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        
+        
+        //check intent extras to launch alert act.
+        Intent alert = this.getActivity().getIntent();
+		String str = alert.getStringExtra("alert");
+		if(str!=null&&str.equals("start_alert"))
+		{
+		    alert.removeExtra("alert");
+			Fragment fragment = new MapFragment();    // open a fragment
+			if (fragment != null) {
+				FragmentManager fragmentManager = getFragmentManager();
+				fragmentManager.beginTransaction()
+						.replace(R.id.frame_container, fragment).commit();
+
+				// update selected item and title, then close the drawer
+				MainActivity.mDrawerList.setItemChecked(5, true);
+				MainActivity.mDrawerList.setSelection(5);
+				getActivity().setTitle("Direction on Map");
+			}
+			
+			Intent launchIntent = new Intent(this.getActivity(), AlertActivity.class);
+		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+		    startActivity(launchIntent);
+		
+		}
+        
+      
         showRecords();
         onoff = (Switch) rootView.findViewById(R.id.switch1);
         status = (TextView) rootView.findViewById(R.id.textView2);        
@@ -67,9 +95,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
          @Override
          public void onCheckedChanged(CompoundButton buttonView,
            boolean isChecked) {	  	 
-        	 
-        if(!num.equals("none"))
-        {
+        
         	if(isChecked){
            status.setText("System status : ON");
            String msg="on";
@@ -92,10 +118,8 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
           }
 
            progress();
-        }
-        else {
-			Toast.makeText(getActivity(), "Please change the number", Toast.LENGTH_SHORT).show();
-		}
+        
+        
          }
          
         });
@@ -111,7 +135,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 
         return rootView;
     }
-
+	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub

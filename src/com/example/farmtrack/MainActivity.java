@@ -40,8 +40,8 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
-	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
+	public DrawerLayout mDrawerLayout;
+	public static ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 //alert intent
 	
@@ -62,13 +62,6 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if(loadData().equals("no")){
-			Intent launchIntent = new Intent(this, StartActivity.class);
-		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
-		    startActivity(launchIntent);
-		    finish();
-		}
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
@@ -96,8 +89,10 @@ public class MainActivity extends ActionBarActivity {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 		//cal
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-		//about
+		//map
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
+		//about
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[6], navMenuIcons.getResourceId(6, -1)));
 		
 
 		// Recycle the typed array
@@ -214,6 +209,9 @@ public class MainActivity extends ActionBarActivity {
 			fragment = new CalenderFragment();
 			break;			
 		case 5:
+			fragment = new MapFragment();
+			break;
+		case 6:
 			fragment = new AboutUs();
 			break;
 		

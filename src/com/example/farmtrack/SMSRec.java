@@ -31,7 +31,7 @@ public class SMSRec extends BroadcastReceiver {
 				msgbody = ""+msg[i].getMessageBody().toString();
 				if(msg[i].getOriginatingAddress().equals("+91"+num)) 
 				{
-					if(alert_msg.equalsIgnoreCase(msgbody))
+					if(msgbody.charAt(0)=='A')
 						flg=true;
 					if(msgbody.equalsIgnoreCase("Your system is ON"))				
 						Toast.makeText(context, "System ON", Toast.LENGTH_SHORT).show();
@@ -46,17 +46,35 @@ public class SMSRec extends BroadcastReceiver {
 				str+="\n";
 			}
 
-			if(flg){
-		    Intent launchIntent = new Intent(context, AlertActivity.class);
-		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-//		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
-			launchIntent.putExtra("sms", str);
-		    context.startActivity(launchIntent);
-			
-			Intent broadcastIntent=new Intent();
-			broadcastIntent.setAction("SMS_REC_ACTION");
-			broadcastIntent.putExtra("sms", str);
-			context.sendBroadcast(broadcastIntent);
+			if(flg){//here we launch mainactvy and then frm home we launch alert
+
+				String dir = "none";
+		        //set direction
+ 		      SharedPreferences.Editor editor = sp.edit();                                                         			
+		
+				if(msgbody.contains("North"))
+					dir = "North";
+				if(msgbody.contains("South"))
+					dir = "South";
+				if(msgbody.contains("East"))
+					dir = "East";
+				if(msgbody.contains("West"))
+					dir = "West";
+					
+			      editor.putString("direction",dir);
+			      editor.commit();
+				
+				
+				    Intent launchIntent = new Intent(context, MainActivity.class);
+				    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+		//		    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
+					launchIntent.putExtra("alert", "start_alert");
+				    context.startActivity(launchIntent);
+					
+					Intent broadcastIntent=new Intent();
+					broadcastIntent.setAction("SMS_REC_ACTION");
+					broadcastIntent.putExtra("sms", str);
+					context.sendBroadcast(broadcastIntent);
 			}
 		}
 	}

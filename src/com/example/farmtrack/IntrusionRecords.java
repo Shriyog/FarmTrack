@@ -7,6 +7,7 @@ import com.example.farmtrack.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,6 +79,14 @@ public class IntrusionRecords extends Fragment implements OnClickListener{
 		// TODO Auto-generated method stub
 		if(v.getId()==R.id.button1)
 		{
+/*			Fragment fragment = new ChangeNumber();    // open a fragment
+			if (fragment != null) {
+				FragmentManager fragmentManager = getFragmentManager();
+				fragmentManager.beginTransaction()
+						.replace(R.id.frame_container, fragment).commit();
+
+			}
+*/			
 			tmp =this.getActivity();
 			alertMessage();
 		

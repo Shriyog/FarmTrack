@@ -22,6 +22,7 @@
         <item>Neighbour Track</item>
         <item>Intrusion Records</item>
         <item>Analysis Calendar</item>
+        <item>Direction on Map</item>
         <item>About Us</item>
     </string-array>
 
@@ -33,6 +34,7 @@
         <item>@drawable/ic_communities</item>
         <item>@drawable/ic_pages</item>
         <item>@drawable/cal</item>
+        <item>@drawable/map</item>
         <item>@drawable/about</item>
     </array>
 
@@ -41,5 +43,7 @@
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_calender">CalenderActivity</string>
     <string name="title_activity_tp">Tp</string>
+    <string name="title_activity_new_start">NewStartActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>

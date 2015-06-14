@@ -30,14 +30,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class AlertActivity extends Activity implements OnInitListener, OnClickListener {
 
-	TextView textViewInfo;
+	TextView textViewInfo,dir,alert;
+	ProgressBar pb;
 	GifView gifView;
 	TextToSpeech tts;
 	Ringtone r;
@@ -48,6 +54,7 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 	WakeLock wakeLock;
 	KeyguardManager keyguardManager;
 	KeyguardLock keyguardLock;
+    Animation flash;
 	
 	String msg="Hey there ! Some intrusional activity has taken place in my farm. Can you please take a look at it.";
 	
@@ -64,12 +71,24 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 		keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE); 
 		keyguardLock = keyguardManager.newKeyguardLock("TAG");
 		keyguardLock.disableKeyguard();
-		
-		
+	    flash = AnimationUtils.loadAnimation(this, R.drawable.blink);
+		final SharedPreferences sp = getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
+
+		  /** Hiding Title bar of this activity screen */
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+ 
+        /** Making this activity, full screen */
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		
 		setContentView(R.layout.activity_alert);
 		notify = (Button) findViewById(R.id.button1);
+		dir = (TextView) findViewById(R.id.textView2);
+		alert = (TextView) findViewById(R.id.textView1);
+		pb = (ProgressBar) findViewById(R.id.progressBar1);	
 		notify.setOnClickListener(this);
+		alert.setAnimation(flash);
 		
 		final int interval = 3000; // 1 Second ringtone timer
 		handler1 = new Handler();
@@ -78,6 +97,8 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 		    	Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 				r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 				r.play();
+		    	dir.setText("Direction : "+sp.getString("direction", "Unidentified"));
+		    	pb.setVisibility(View.INVISIBLE);
 			  }
 		};
 		handler1.postAtTime(runnable1, System.currentTimeMillis()+interval);
@@ -89,7 +110,7 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 		    public void run() {
 		    	
 		    	wakeLock.release();
-		    	keyguardLock.reenableKeyguard();
+//		    	keyguardLock.reenableKeyguard();
 		    	wakeLock = null;
 		    	keyguardLock = null;
 				SharedPreferences sp = getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
@@ -138,19 +159,29 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 	    }
 	 
 	 @Override
+	 public void onBackPressed() {
+	     // TODO Auto-generated method stub
+	     if (r != null && r.isPlaying()) {
+	         r.stop();
+
+	     }
+	     super.onBackPressed();
+	 }
+	 
+	 @Override
 	    public void onDestroy() {
 	        // Don't forget to shutdown tts!
-	        if (tts != null) {
+		  	if(r != null)
+	            r.stop();	  
+		 	if (tts != null) {
 	            tts.stop();
 	            tts.shutdown();
 	        }
-	    	if(r != null)
-	            r.stop();
 	    	handler1.removeCallbacks(runnable1);
 	    	handler2.removeCallbacks(runnable2);
 	    	if(wakeLock!=null){
 	    	wakeLock.release();
-	    	keyguardLock.reenableKeyguard();
+	//    	keyguardLock.reenableKeyguard();
 	    	}
 	        super.onDestroy();
 	    }
@@ -159,7 +190,10 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
 
 	@Override
 	public void onClick(View v) {
-		 sendNotifications(); 			
+		 sendNotifications(); 
+		 if (r != null && r.isPlaying()) 
+	         r.stop();
+		 finish();
 	}
 
 	 
@@ -193,6 +227,10 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
         String [] arr = formattedDate.split(" "); 
         db.addContact(new Contact(arr[0], arr[1]+" "+arr[2]));		
         
+        SharedPreferences sp1 = getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp1.edit();                                                         			
+	      editor.putString("last_intrusion", "At "+arr[1]+" "+arr[2]+" on "+arr[0]);
+	      editor.commit();
 	}
 
 	
