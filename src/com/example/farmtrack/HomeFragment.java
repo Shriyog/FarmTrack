@@ -51,7 +51,8 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 	
 		
 		SharedPreferences sp = this.getActivity().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);		
-	    stat = sp.getBoolean("status", false);
+	    num= sp.getString("ph_no", "none");
+		stat = sp.getBoolean("status", false);
 	    db = new DatabaseHandler(this.getActivity());
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         
@@ -96,6 +97,8 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
          public void onCheckedChanged(CompoundButton buttonView,
            boolean isChecked) {	  	 
         
+         if(!num.equals("none"))
+         { 
         	if(isChecked){
            status.setText("System status : ON");
            String msg="on";
@@ -105,7 +108,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
    			//sm.sendTextMessage(destinationAddress, scAddress, text, sentIntent, deliveryIntent)
    		
    			Toast.makeText(getActivity(), "Turning the system ON", Toast.LENGTH_SHORT).show();
-
+            progress(1);
           }else{
            status.setText("System status : OFF");
 		   String msg="off";
@@ -115,11 +118,14 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 			//sm.sendTextMessage(destinationAddress, scAddress, text, sentIntent, deliveryIntent)
 			
 			Toast.makeText(getActivity(), "Turning the system OFF", Toast.LENGTH_SHORT).show();
+			progress(0);
           }
 
-           progress();
-        
-        
+
+         }
+         else {
+ 			Toast.makeText(getActivity(), "Please change the number", Toast.LENGTH_SHORT).show();
+         }
          }
          
         });
@@ -234,21 +240,22 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 		return "Analysing data";
 	}
 	
-	void progress()
+	void progress(int state)
 	{
+		final int onoff = state;
 		progressBar = new ProgressDialog(rootView.getContext());
         progressBar.setCancelable(true);
         progressBar.setMessage("Processing ...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.setProgress(0);
-        progressBar.setMax(100);
+        progressBar.setMax(16);
         progressBar.show();
         progressBarStatus = 0;
         
         fileSize = 0;
         new Thread(new Runnable() {
            public void run() {
-              while (progressBarStatus <= 5) {
+              while (progressBarStatus <= 16) {
                  progressBarStatus++;
                  
                  try {
@@ -258,6 +265,50 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
                  catch (InterruptedException e) {
                     e.printStackTrace();
                  }
+                // progressBar.setM
+                 getActivity().runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						
+						if(onoff == 1){
+							if(progressBarStatus == 2)
+			                     progressBar.setMessage("Connecting to the System ...");                 
+			                 
+			                 if(progressBarStatus == 5)
+			                     progressBar.setMessage("Setting Up the Controller...");                 
+			                 
+			                 if(progressBarStatus == 8)
+			                	 progressBar.setMessage("Powering the Transmitters...");                 
+			                 
+			                 if(progressBarStatus == 11)
+			                	 progressBar.setMessage("Initializing Sensors ...");                 
+	
+			                 if(progressBarStatus == 14)
+			                     progressBar.setMessage("Fetching ackowledgements...");			
+						}
+						else
+						{
+			                 if(progressBarStatus == 2)
+			                     progressBar.setMessage("Connecting to the System ...");                 
+			                 
+			                 if(progressBarStatus == 5)
+			                     progressBar.setMessage("Shutting down Monitors...");                 
+			                 
+			                 if(progressBarStatus == 8)
+			                	 progressBar.setMessage("Depowering Transmitters...");                 
+			                 
+			                 if(progressBarStatus == 11)
+			                	 progressBar.setMessage("Disengaging Sensors ...");                 
+
+			                 if(progressBarStatus == 14)
+			                     progressBar.setMessage("Fetching ackowledgements...");	
+						}
+					}
+				});
+                 
+                 
                  
                  progressBarbHandler.post(new Runnable() {
                     public void run() {
@@ -266,7 +317,7 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
                  });
               }
               
-              if (progressBarStatus >= 5) {
+              if (progressBarStatus >= 16) {
                 
                  progressBar.dismiss();
               }

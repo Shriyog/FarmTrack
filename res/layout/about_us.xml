@@ -37,81 +37,35 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/pea" />
 
-    <CheckedTextView
-        android:id="@+id/checkedTextView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/checkedTextView1"
-        android:layout_below="@+id/checkedTextView1"
-        android:textColor="@color/counter_text_bg"
-        android:text="Suraj Nagaonkar" />
-
-    <CheckedTextView
-        android:id="@+id/checkedTextView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/checkedTextView2"
-        android:layout_below="@+id/checkedTextView2"
-        android:textColor="@color/counter_text_bg"
-        android:text="Akshay Paratmandli" />
-
-    <CheckedTextView
-        android:id="@+id/checkedTextView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/checkedTextView3"
-        android:layout_below="@+id/checkedTextView3"
-        android:textColor="@color/counter_text_bg"
-        android:text="Swapnil Desai" />
-
-    <CheckedTextView
-        android:id="@+id/checkedTextView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/checkedTextView4"
-        android:layout_below="@+id/checkedTextView4"
-        android:textColor="@color/counter_text_bg"
-        android:text="Abhijeet Rawool" />
-
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/checkedTextView5"
+        android:layout_alignTop="@+id/textView5"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Copyright © 2015"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/list_background" />
+        android:layout_marginTop="20dp"
+        android:text="Team NavNirman"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/counter_text_bg" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView4"
+        android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
-        android:text="All Rights Reserved , Team NavNirman"
+        android:layout_marginTop="30dp"
+        android:text="App Designed and Developed by"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/list_background" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:text="Team Members"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/wood" />
-
-    <CheckedTextView
-        android:id="@+id/checkedTextView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
         android:layout_below="@+id/textView3"
-        android:text="Shriyog Ingale"
-        android:textColor="@color/counter_text_bg" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/ic_logo" />
     
 </RelativeLayout>
