@@ -170,15 +170,15 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
         listView = (ListView) rootView.findViewById(R.id.listView1);
       
         // Reading all contacts
-        List<Contact> contacts = db.getAllContacts();       
+        List<Intrusions> intrusions = db.getAllContacts();       
  
-        int n=contacts.size(),i=0;
+        int n=intrusions.size(),i=0;
         if(n>3)
         	n=3;
         // Defined Array values to show in ListView
         String[] values = new String[n];
-        for (Contact cn : contacts) {
-        	values[i] = "  "+(i+1)+"        " + cn.getName() + "       " + cn.getPhoneNumber();
+        for (Intrusions cn : intrusions) {
+        	values[i] = "  "+(i+1)+"        " + cn.getDate() + "       " + cn.getTime();
         	if(i==2)
         		break;
         	i++;
@@ -200,13 +200,13 @@ public class HomeFragment extends Fragment implements OnClickListener,OnCheckedC
 
 	public String analyze()
 	{
-		List<Contact> contacts = db.getAllContacts();       
-		int [] array = new int[contacts.size()];
+		List<Intrusions> intrusions = db.getAllContacts();       
+		int [] array = new int[intrusions.size()];
 		
-		if(contacts.size()>1){
+		if(intrusions.size()>1){
 			int x=0;
-		for (Contact cn : contacts) {
-			String str = ""+cn.getPhoneNumber();
+		for (Intrusions cn : intrusions) {
+			String str = ""+cn.getTime();
 			String tmp [] = str.split(":");
 			array[x] = Integer.parseInt(""+tmp[0]);
 			x++;

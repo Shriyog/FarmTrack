@@ -7,7 +7,7 @@ import java.util.Locale;
 
 import org.w3c.dom.Text;
 
-import com.example.farmtrack.Contact;
+import com.example.farmtrack.Intrusions;
 import com.example.farmtrack.DatabaseHandler;
 
 import android.app.Activity;
@@ -225,7 +225,7 @@ public class AlertActivity extends Activity implements OnInitListener, OnClickLi
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
         String formattedDate = df.format(c.getTime());
         String [] arr = formattedDate.split(" "); 
-        db.addContact(new Contact(arr[0], arr[1]+" "+arr[2]));		
+        db.addContact(new Intrusions(arr[0], arr[1]+" "+arr[2]));		
         
         SharedPreferences sp1 = getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp1.edit();                                                         			

@@ -1,8 +1,5 @@
 package com.example.farmtrack;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -12,8 +9,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.DocumentsContract.Root;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,14 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-
-import com.example.farmtrack.Contact;
-import com.example.farmtrack.DatabaseHandler;
 
 public class ChangeNumber extends Fragment implements OnClickListener{
 	
@@ -48,7 +35,8 @@ public class ChangeNumber extends Fragment implements OnClickListener{
         bt.setOnClickListener(this);
         num = (EditText) rootView.findViewById(R.id.editText1);
         loadData();
-        
+             
+	      
         buttonPickContact = (Button)rootView.findViewById(R.id.button2);
 		buttonPickContact.setOnClickListener(new Button.OnClickListener(){
 

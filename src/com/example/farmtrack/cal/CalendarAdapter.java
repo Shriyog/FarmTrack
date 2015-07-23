@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import com.example.farmtrack.Contact;
+import com.example.farmtrack.Intrusions;
 import com.example.farmtrack.DatabaseHandler;
 import com.example.farmtrack.R;
 
@@ -109,22 +109,32 @@ public class CalendarAdapter extends BaseAdapter{
 			Calendar cal = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
 			Day d = dayList.get(position);
 			
-			List<Contact> contacts = db.getAllContacts();       
+			List<Intrusions> intrusions = db.getAllContacts();       
 	 
-	        int n=contacts.size(),i=0;
+	        int n=intrusions.size(),i=0;
 	        // Defined Array values to show in ListView
 	        String str="";
-	        for (Contact cn : contacts) {
-	        	str = cn.getName();
-	        	String val [] = str.split("-");
-	        	if(d.getDay()==Integer.parseInt(""+val[0]))
+	        String month = ""+(d.getMonth()+1);
+	        if(month.length()==1)
+	        	month = "0"+month;
+	        
+	        String Sday = ""+(d.getDay());
+	        if(Sday.length()==1)
+	        	Sday = "0"+Sday;
+	        
+	        String date =Sday+"-"+month+"-"+d.getYear();
+	        
+	        for (Intrusions cn : intrusions) {
+	        	str = cn.getDate();
+	           	if(str.equals(date))
 	        	i++;
-	        	
+	//	        System.out.println("str : "+str+" date : "+date+" count: "+i);
+	
 	        	
 	        }
 
 			
-	        if(d.getYear() == cal.get(Calendar.YEAR) && d.getMonth() == cal.get(Calendar.MONTH))
+//	        if(d.getYear() == cal.get(Calendar.YEAR) && d.getMonth() == cal.get(Calendar.MONTH))
 	        {
 			
 			

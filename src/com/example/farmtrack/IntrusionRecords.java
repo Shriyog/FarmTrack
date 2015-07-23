@@ -46,16 +46,15 @@ public class IntrusionRecords extends Fragment implements OnClickListener{
         listView = (ListView) rootView.findViewById(R.id.listView1);
         clear = (Button) rootView.findViewById(R.id.button1);
         clear.setOnClickListener(this);
-        // Reading all contacts
-        Log.d("Reading: ", "Reading all contacts..");
-        List<Contact> contacts = db.getAllContacts();       
+        // Reading all intru
+        List<Intrusions> intrusions = db.getAllContacts();       
  
-        int n=contacts.size(),i=0;
+        int n=intrusions.size(),i=0;
         cnt = n;
         // Defined Array values to show in ListView
         String[] values = new String[n];
-        for (Contact cn : contacts) {
-        	values[i] = "  "+(i+1)+"        " + cn.getName() + "       " + cn.getPhoneNumber();
+        for (Intrusions cn : intrusions) {
+        	values[i] = "  "+(i+1)+"        " + cn.getDate() + "       " + cn.getTime();
         	i++;
         }
 
